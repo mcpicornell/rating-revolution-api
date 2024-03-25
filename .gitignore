@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caché de archivos generados por IDEs o editores
+.idea/
+.vscode/
+
+# Directorio de archivos estáticos
+/static/
+
+# Directorio de archivos de medios
+/media/
+
+# Archivo de registro de Django
+*.log
+
+# Entorno virtual
+venv/
