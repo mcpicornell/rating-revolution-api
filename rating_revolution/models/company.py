@@ -9,7 +9,7 @@ class Company(models.Model):
     website = models.URLField(max_length=255, blank=True, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rating = models.FloatField(default=0.0)
-    CIF = models.CharField(max_length=255)
+    CIF = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 

@@ -1,8 +1,21 @@
 from rest_framework import serializers
-from rating_revolution.models import Company
+from rating_revolution.models import Company, Review, CompanyPhotos
 
 
 class CompanySerializer(serializers.ModelSerializer):
+    reviews = serializers.SerializerMethodField(read_only=True)
+    photos = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Company
         fields = '__all__'
+
+    def get_reviews(self, obj):
+        reviews = Review.objects.filter(company=obj, is_active=True)
+        if self.context['view'].action == 'retrieve':
+            return reviews
+        return reviews.count()
+
+    @staticmethod
+    def get_photos(obj):
+        return CompanyPhotos.objects.filter(company=obj, is_active=True)
