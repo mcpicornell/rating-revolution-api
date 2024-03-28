@@ -4,21 +4,13 @@ from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rating_revolution.models import Company, Reviewer
 from rest_framework.authtoken.models import Token
-
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rating_revolution.serializers import LoginSerializer
 
 @api_view(['POST'])
 def login(request):
-    is_company = False
-    email = request.data.get('email', None)
-    if not email:
-        cif = request.data.get('CIF', None)
-        if not cif:
-            return Response({'error': 'El email o el CIF son requeridos'}, status=status.HTTP_401_UNAUTHORIZED)
-        email = Company.objects.filter(CIF=cif).first().user.email
-        is_company = True
-    password = request.data.get('password')
 
-    user = authenticate(email=email, password=password)
 
     if user:
         token, created = Token.objects.get_or_create(user=user)
@@ -38,3 +30,25 @@ def login(request):
 def logout(request):
     request.user.auth_token.delete()
     return Response(status=status.HTTP_200_OK)
+
+
+class LoginViewSet(viewsets.ViewSet):
+    serializer_class = LoginSerializer
+
+    @action(detail=False, methods=['POST'])
+    def login(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, object_id = serializer.validated_data
+        if user:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response(
+                {'token': token.key,
+                 'id': object_id
+                 }, status=status.HTTP_200_OK)
+        return Response({'error': 'Credenciales incorrectas'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    @action(detail=False, methods=['POST'])
+    def logout(self, request):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
