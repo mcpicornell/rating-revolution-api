@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'hkf_&kfu!a^7m*b7pww!@msoci8jxu#=w(1=3#h2bs=z1qta_-'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -53,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'rating_revolution.urls'
+ROOT_URLCONF = 'rating_revolution.urls.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rating_revolution.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -83,7 +80,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -103,7 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -117,8 +112,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+AVATAR_DEFAULT_URL = 'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'
+
+AUTH_USER_MODEL = 'rating_revolution.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
