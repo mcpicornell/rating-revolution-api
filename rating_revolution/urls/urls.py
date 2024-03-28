@@ -19,7 +19,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.routers import DefaultRouter
-from rating_revolution.views import CompanyViewSet, ReviewerViewSet, ReviewViewSet, login, logout
+from rating_revolution.views import CompanyViewSet, ReviewerViewSet, ReviewViewSet, LoginViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -38,12 +38,11 @@ router = DefaultRouter()
 router.register(r'companies', CompanyViewSet, basename='companies')
 router.register(r'reviewers', ReviewerViewSet, basename='reviewers')
 router.register(r'reviews', ReviewViewSet, basename='reviews')
+router.register(r'', LoginViewSet, basename='login')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/', include(router.urls)),
-    path('api/v1/login', login, name='login'),
-    path('api/v1/logout', logout, name='logout'),
 ]

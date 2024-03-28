@@ -1,4 +1,4 @@
-from .company import CompanySerializer, LoginCompanySerializer
+from .company import CompanySerializer
 from .review import ReviewSerializer
 from .reviewer import ReviewerSerializer
 from .login import LoginSerializer
