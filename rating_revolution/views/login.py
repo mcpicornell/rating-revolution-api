@@ -1,3 +1,4 @@
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -8,10 +9,16 @@ from rating_revolution.serializers import LoginSerializer
 
 class LoginViewSet(viewsets.ViewSet):
     serializer_class = LoginSerializer
+    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action == 'logout':
+            return [IsAuthenticated]
+        return super().get_permissions()
 
     @action(detail=False, methods=['POST'])
     def login(self, request):
-        serializer = self.get_serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user, object_id = serializer.validated_data
         if user:

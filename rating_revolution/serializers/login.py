@@ -22,8 +22,9 @@ class LoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError("No se encontró empresa con este CIF")
 
         else:
-            user = authenticate(email=email, password=password)
-            object_id = Reviewer.objects.filter(user_id=user.id).first().id
+            reviewer = Reviewer.objects.filter(user__email=email).first()
+            user = reviewer.user
+            object_id = reviewer.id
 
         if user.check_password(password):
             return user, object_id

@@ -118,7 +118,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 AVATAR_DEFAULT_URL = 'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'
 
-AUTH_USER_MODEL = 'rating_revolution.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
