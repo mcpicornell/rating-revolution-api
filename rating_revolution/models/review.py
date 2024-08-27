@@ -11,3 +11,7 @@ class Review(models.Model):
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
