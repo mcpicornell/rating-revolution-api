@@ -7,7 +7,7 @@ class Reviewer(models.Model):
     name = models.CharField(max_length=255)
     nickname = models.CharField(max_length=255, unique=True)
     avatar = models.URLField(max_length=255, default=AVATAR_DEFAULT_URL)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
