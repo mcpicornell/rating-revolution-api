@@ -1,3 +1,5 @@
+import statistics
+
 from django.db import models
 from rest_framework.authtoken.admin import User
 
@@ -9,7 +11,6 @@ class Company(models.Model):
     website = models.URLField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = models.FloatField(default=0.0)
     CIF = models.CharField(max_length=255, unique=True)
     date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
@@ -22,10 +23,16 @@ class Company(models.Model):
         verbose_name = 'Company'
         verbose_name_plural = 'Companies'
 
+    def get_rating(self):
+        from rating_revolution.models import Review
+        reviews_values = Review.objects.filter(company=self).values_list('rating', flat=True)
+        rating = statistics.mean(reviews_values) if len(reviews_values) > 0 else 0
+        return round(rating, 1)
+
 
 class CompanyPhotos(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    photo = models.URLField(max_length=255)
+    url = models.URLField(max_length=255)
     description = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)

@@ -1,11 +1,12 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
-from rest_framework import viewsets, status
-from rest_framework.authtoken.admin import User
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
+
 from rating_revolution.models.company import Company
 from rating_revolution.serializers import CompanySerializer
 from rating_revolution.serializers.company import CompanyPhotoSerializer
@@ -31,6 +32,7 @@ class CompanyViewSet(CustomDestroyModelMixin, viewsets.ModelViewSet):
         email = company_validated_data['email']
         password = make_password(company_validated_data['password'])
         user = User.objects.create(
+            username=email,
             email=email,
             password=password,
         )
@@ -47,4 +49,3 @@ class CompanyViewSet(CustomDestroyModelMixin, viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(company=company)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-

@@ -1,14 +1,16 @@
 from rest_framework import serializers
+
 from rating_revolution.models import Reviewer, Review
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(source='user.email', read_only=True)
+    email = serializers.CharField(write_only=True, required=True)
     reviews = serializers.SerializerMethodField(read_only=True)
+    password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = Reviewer
-        fields = '__all__'
+        exclude = ('user', 'is_active')
         read_only_fields = ('id', 'date', 'is_active')
 
     def get_reviews(self, obj):
@@ -16,4 +18,3 @@ class ReviewerSerializer(serializers.ModelSerializer):
         if self.context['view'].action == 'retrieve':
             return reviews
         return reviews.count()
-

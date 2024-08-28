@@ -1,6 +1,6 @@
 from rest_framework import serializers
+
 from rating_revolution.models import Company, Reviewer
-from django.contrib.auth import authenticate
 
 
 class LoginSerializer(serializers.Serializer):
@@ -19,7 +19,7 @@ class LoginSerializer(serializers.Serializer):
                 user = company.user
                 object_id = company.id
             else:
-                raise serializers.ValidationError("No se encontró empresa con este CIF")
+                raise serializers.ValidationError("Company not found with this CIF")
 
         else:
             reviewer = Reviewer.objects.filter(user__email=email).first()
@@ -28,4 +28,4 @@ class LoginSerializer(serializers.Serializer):
 
         if user.check_password(password):
             return user, object_id
-        raise serializers.ValidationError("Credenciales incorrectas")
+        raise serializers.ValidationError("Wrong credentials")

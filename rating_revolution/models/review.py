@@ -8,10 +8,30 @@ class Review(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
 
+    def get_likes(self):
+        return ReviewEvent.objects.filter(review=self, type=ReviewEvent.LIKE).count()
+
+    def get_dislikes(self):
+        return ReviewEvent.objects.filter(review=self, type=ReviewEvent.DISLIKE).count()
+
+
+from django.db import models
+
+class ReviewEvent(models.Model):
+    LIKE = 'L'
+    DISLIKE = 'D'
+    OPTIONS = (
+        (LIKE, 'Like'),
+        (DISLIKE, 'Dislike'),
+    )
+    type = models.CharField(max_length=1, choices=OPTIONS)
+    review = models.ForeignKey('Review', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.type
