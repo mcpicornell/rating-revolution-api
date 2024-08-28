@@ -13,6 +13,8 @@ class CompanySerializer(serializers.ModelSerializer):
         exclude = ('is_active', 'user', )
 
     def get_reviews(self, obj):
+        if isinstance(obj, Review):
+            obj = obj.company
         reviews = Review.objects.filter(company=obj, is_active=True)
         if self.context['view'].action == 'retrieve':
             return reviews
@@ -23,6 +25,8 @@ class CompanySerializer(serializers.ModelSerializer):
         return str(obj.get_rating())
 
     def get_photos(self, obj):
+        if isinstance(obj, Review):
+            obj = obj.company
         photos = CompanyPhotos.objects.filter(company=obj, is_active=True)
         if self.context['view'].action == 'retrieve':
             return [photo.url for photo in photos]

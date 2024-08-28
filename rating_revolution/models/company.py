@@ -23,9 +23,10 @@ class Company(models.Model):
         verbose_name = 'Company'
         verbose_name_plural = 'Companies'
 
-    def get_rating(self):
+    def get_rating(self, obj=None):
         from rating_revolution.models import Review
-        reviews_values = Review.objects.filter(company=self).values_list('rating', flat=True)
+        obj = self if not obj else obj
+        reviews_values = Review.objects.filter(company=obj).values_list('rating', flat=True)
         rating = statistics.mean(reviews_values) if len(reviews_values) > 0 else 0
         return round(rating, 1)
 

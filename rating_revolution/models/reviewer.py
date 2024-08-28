@@ -19,7 +19,7 @@ class Reviewer(models.Model):
         return self.name
 
     def get_rating(self):
-        reviews_values = Review.objects.filter(user=self.user).values_list('rating', flat=True)
+        reviews_values = Review.objects.filter(reviewer=self).values_list('rating', flat=True)
         rating = statistics.mean(reviews_values) if len(reviews_values) > 0 else 0
         return round(rating, 1)
 

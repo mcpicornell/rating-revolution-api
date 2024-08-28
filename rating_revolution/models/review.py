@@ -22,6 +22,7 @@ class Review(models.Model):
 
 from django.db import models
 
+
 class ReviewEvent(models.Model):
     LIKE = 'L'
     DISLIKE = 'D'
