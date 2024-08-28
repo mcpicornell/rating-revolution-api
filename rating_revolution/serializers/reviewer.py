@@ -7,6 +7,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
     email = serializers.CharField(write_only=True, required=True)
     reviews = serializers.SerializerMethodField(read_only=True)
     password = serializers.CharField(write_only=True, required=True)
+    rating =serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Reviewer
@@ -18,3 +19,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
         if self.context['view'].action == 'retrieve':
             return reviews
         return reviews.count()
+
+    @staticmethod
+    def get_rating(obj):
+        return obj.get_rating()
