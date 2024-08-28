@@ -16,7 +16,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
 
     def get_reviews(self, obj):
         reviews = Review.objects.filter(reviewer=obj, is_active=True)
-        if self.context['view'].action == 'retrieve':
+        if self.context and self.context['view'].action == 'retrieve':
             return reviews
         return reviews.count()
 

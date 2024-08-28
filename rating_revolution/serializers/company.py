@@ -7,26 +7,39 @@ class CompanySerializer(serializers.ModelSerializer):
     photos = serializers.SerializerMethodField(read_only=True)
     rating = serializers.SerializerMethodField(read_only=True)
     password = serializers.CharField(write_only=True, required=False)
+    last_reviewer = serializers.SerializerMethodField(read_only=True)
+    total_reviews = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Company
         exclude = ('is_active', 'user', )
 
     def get_reviews(self, obj):
-        if isinstance(obj, Review):
-            obj = obj.company
         reviews = Review.objects.filter(company=obj, is_active=True)
         if self.context['view'].action == 'retrieve':
             return reviews
         return reviews.count()
 
     @staticmethod
+    def get_total_reviews(obj):
+        return Review.objects.filter(company=obj, is_active=True).count()
+
+    @staticmethod
+    def get_last_reviewer(obj):
+        from .reviewer import ReviewerSerializer
+        reviews = Review.objects.filter(company=obj, is_active=True).order_by('-date')
+        if reviews:
+            last_reviewer= reviews.first().reviewer
+            serializer = ReviewerSerializer(last_reviewer)
+            return serializer.data
+        return None
+
+
+    @staticmethod
     def get_rating(obj):
         return str(obj.get_rating())
 
     def get_photos(self, obj):
-        if isinstance(obj, Review):
-            obj = obj.company
         photos = CompanyPhotos.objects.filter(company=obj, is_active=True)
         if self.context['view'].action == 'retrieve':
             return [photo.url for photo in photos]
