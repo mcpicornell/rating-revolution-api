@@ -18,7 +18,7 @@ class CompanyViewSet(CustomDestroyModelMixin, viewsets.ModelViewSet):
     serializer_class = CompanySerializer
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['is_active']
+    filterset_fields = ['CIF']
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy']:

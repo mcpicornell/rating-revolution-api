@@ -1,4 +1,8 @@
+import statistics
+
 from django.db import models
+
+from rating_revolution.models import Review
 from rating_revolution.settings import AVATAR_DEFAULT_URL
 from rest_framework.authtoken.admin import User
 
@@ -13,4 +17,10 @@ class Reviewer(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_rating(self):
+        reviews_values = Review.objects.filter(user=self.user).values_list('rating', flat=True)
+        rating = statistics.mean(reviews_values) if len(reviews_values) > 0 else 0
+        return round(rating, 1)
+
 

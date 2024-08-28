@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,6 +13,10 @@ class ReviewViewSet(CustomDestroyModelMixin, viewsets.ModelViewSet):
     queryset = Review.objects.filter(is_active=True)
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['reviewer', 'company']
+    ordering_fields = ['date']
+    ordering = ['-date']
 
     def get_serializer_class(self):
         if self.action in ['create_like_event', 'create_dislike_event']:
