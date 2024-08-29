@@ -11,11 +11,6 @@ class LoginViewSet(viewsets.ViewSet):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
-    def get_permissions(self):
-        if self.action == 'logout':
-            return [IsAuthenticated]
-        return super().get_permissions()
-
     @action(detail=False, methods=['POST'])
     def login(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -31,5 +26,6 @@ class LoginViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['POST'])
     def logout(self, request):
-        request.user.auth_token.delete()
+        if request.user:
+            request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
