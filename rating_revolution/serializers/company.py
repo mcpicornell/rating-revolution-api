@@ -15,9 +15,13 @@ class CompanySerializer(serializers.ModelSerializer):
         exclude = ('is_active', 'user', )
 
     def get_reviews(self, obj):
+        from .review import ReviewSerializer
         reviews = Review.objects.filter(company=obj, is_active=True)
-        if self.context['view'].action == 'retrieve':
-            return reviews
+
+        if self.context:
+            view = self.context.get('view')
+            if view and view.action == 'retrieve':
+                return ReviewSerializer(reviews, many=True).data
         return reviews.count()
 
     @staticmethod
@@ -41,7 +45,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
     def get_photos(self, obj):
         photos = CompanyPhotos.objects.filter(company=obj, is_active=True)
-        if self.context['view'].action == 'retrieve':
+        if self.context and self.context['view'].action == 'retrieve':
             return [photo.url for photo in photos]
         first_photo = photos.first()
         return first_photo.url if first_photo else None
