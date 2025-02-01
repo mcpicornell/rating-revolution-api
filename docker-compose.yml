@@ -5,6 +5,8 @@ services:
     build: .
     container_name: rating_revolution_api
     restart: always
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
     command: python manage.py runserver 0.0.0.0:8001
     volumes:
       - .:/app

@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+.env
+
 # Caché de archivos generados por IDEs o editores
 .idea/
 .vscode/
