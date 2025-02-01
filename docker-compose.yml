@@ -13,18 +13,18 @@ services:
     networks:
       - rating_revolution_api_network
 
-  nginx_rating_revolution_api:
-    image: nginx:latest
-    container_name: nginx_rating_revolution_api
-    restart: always
-    volumes:
-      - ./nginx:/etc/nginx
-    ports:
-      - "8080:80"
-    depends_on:
-      - rating_revolution_api
-    networks:
-      - rating_revolution_api_network
+#  nginx_rating_revolution_api:
+#    image: nginx:latest
+#    container_name: nginx_rating_revolution_api
+#    restart: always
+#    volumes:
+#      - ./nginx:/etc/nginx
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - rating_revolution_api
+#    networks:
+#      - rating_revolution_api_network
 
 networks:
   rating_revolution_api_network:
