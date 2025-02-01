@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  rating_revolution_api:
+    build: .
+    container_name: rating_revolution_api
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"
+    networks:
+      - rating_revolution_api_network
+
+  nginx_rating_revolution_api:
+    image: nginx:alpine
+    container_name: nginx_rating_revolution_api
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    networks:
+      - rating_revolution_api_network
+
+networks:
+  rating_revolution_api_network:
+    driver: bridge
