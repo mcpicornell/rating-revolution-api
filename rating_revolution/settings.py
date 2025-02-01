@@ -24,10 +24,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'hkf_&kfu!a^7m*b7pww!@msoci8jxu#=w(1=3#h2bs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend.rating-revolution.mcpicornell.com.es']
+ALLOWED_HOSTS = [os.getenv('DOMAIN_BACKEND', 'localhost:8080')]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    # "https://rating-revolution.mcpicornell.com.es",
+    f"http://{os.getenv('DOMAIN_FRONTEND', 'localhost:3000')}",
+    f"https://{os.getenv('DOMAIN_FRONTEND')}"
 ]
 
 # Application definition
