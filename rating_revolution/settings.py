@@ -26,8 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [os.getenv('DOMAIN_BACKEND', 'localhost:8080')]
 CORS_ALLOWED_ORIGINS = [
-    f"http://{os.getenv('DOMAIN_FRONTEND', 'localhost:3000')}",
-    f"https://{os.getenv('DOMAIN_FRONTEND')}"
+    os.getenv('FRONTEND_HOST', "http://localhost:3000",),
 ]
 
 # Application definition
