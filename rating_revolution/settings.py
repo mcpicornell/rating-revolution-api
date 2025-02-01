@@ -27,7 +27,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['backend.rating-revolution.mcpicornell.com.es']
 CORS_ALLOWED_ORIGINS = [
     # "http://localhost:3000", # TODO: add real domain once deployed
-    "*"
+    "http://*",
+    "https://*",
 ]
 
 # Application definition
