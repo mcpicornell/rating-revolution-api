@@ -24,7 +24,11 @@ SECRET_KEY = 'hkf_&kfu!a^7m*b7pww!@msoci8jxu#=w(1=3#h2bs=z1qta_-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['backend.rating-revolution.mcpicornell.com.es']
+CORS_ALLOWED_ORIGINS = [
+    # "http://localhost:3000", # TODO: add real domain once deployed
+    "*"
+]
 
 # Application definition
 
@@ -131,8 +135,4 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
 
