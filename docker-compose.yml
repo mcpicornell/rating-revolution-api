@@ -22,7 +22,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - web
+      - rating_revolution_api
     networks:
       - rating_revolution_api_network
 
