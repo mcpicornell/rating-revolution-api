@@ -23,7 +23,9 @@ class ReviewerViewSet(CustomDestroyModelMixin, viewsets.ModelViewSet):
         return super().get_permissions()
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        if self.request.user.is_anonymous:
+            return Reviewer.objects.none()
+        elif self.request.user.is_superuser:
             return Reviewer.objects.all()
         return Reviewer.objects.filter(user=self.request.user)
 

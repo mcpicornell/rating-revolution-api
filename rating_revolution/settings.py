@@ -24,7 +24,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'hkf_&kfu!a^7m*b7pww!@msoci8jxu#=w(1=3#h2bs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.getenv('DOMAIN_BACKEND', 'localhost:8080')]
+ALLOWED_HOSTS = [os.getenv('DOMAIN_BACKEND', 'localhost')]
 CORS_ALLOWED_ORIGINS = [
     os.getenv('FRONTEND_HOST', "http://localhost:3000",),
 ]
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'drf_yasg',
     'rating_revolution',
 ]
@@ -129,6 +130,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

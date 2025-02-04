@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from rating_revolution.models import Company, Reviewer
 
@@ -27,5 +29,10 @@ class LoginSerializer(serializers.Serializer):
             object_id = reviewer.id
 
         if user.check_password(password):
-            return user, object_id
-        raise serializers.ValidationError("Wrong credentials")
+            refresh = RefreshToken.for_user(user)
+            return {
+                'refresh': str(refresh),
+                'token': str(refresh.access_token),
+                'id': object_id,
+            }
+        raise AuthenticationFailed("Wrong credentials")
